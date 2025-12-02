@@ -157,7 +157,3 @@ This file contains concise, Roocode/Gemini 2.5–friendly prompts and best‑pra
 **Code Reviews**
 
 * Use reviews to catch unintended changes and architectural drift.
-
----
-
-If you want, I can also generate a **Roocode YAML/JSON task file**, a **Gemini‑friendly workflow**, or convert this into **agent‑ready instructions** for Ask/Architect/Orchestrator modes.
