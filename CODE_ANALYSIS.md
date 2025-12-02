@@ -129,3 +129,20 @@ The "Duke & Chord Music" application utilizes a component-based and event-driven
 *   **API Interaction**: The `*StateManager.js` modules are also responsible for all interactions with the mock REST API (powered by `json-server`). They handle fetching data, as well as creating, updating, and deleting records, ensuring that the application's data is consistent and up-to-date.
 
 In summary, components interact with state managers to initiate actions or retrieve data, and state managers, in turn, notify components of updates through a custom event system, which drives the dynamic rendering of the UI.
+
+
+## 8. Follow the Data (Data Flow Mapping) - Viewing Instruments
+
+Tracing the data flow for the "Viewing Instruments" feature in the "Duke & Chord Music" application highlights the event-driven nature of its architecture:
+
+1.  **User Action**: The process begins when a user clicks on the "Instruments" link within the application's navigation bar.
+2.  **UI Event Handler**: An event listener within the [`src/scripts/nav/NavBar.js`](src/scripts/nav/NavBar.js) component captures this user interaction.
+3.  **State Update Request**: The `NavBar`'s event handler then invokes a method on the [`src/scripts/data/ViewStateManager.js`](src/scripts/data/ViewStateManager.js) to update the application's current view state, setting it to 'store'.
+4.  **View State Change Event**: Upon updating its internal state, the `ViewStateManager` dispatches a custom `stateChanged` event, signaling that the application's view has changed.
+5.  **Application Orchestration**: The main application component (e.g., [`src/scripts/DukeChord.js`](src/scripts/DukeChord.js) or the main initialization logic in [`src/scripts/main.js`](src/scripts/main.js)) listens for this `stateChanged` event. Recognizing the view transition, it then orchestrates the loading of instrument-related data by interacting with the [`src/scripts/data/InstrumentsStateManager.js`](src/scripts/data/InstrumentsStateManager.js).
+6.  **API Data Fetch**: The `InstrumentsStateManager` is responsible for making an asynchronous API call to fetch the list of available instruments. This call targets the `api/database.json` endpoint, which is served by `json-server` and proxied through the application's custom [`server.js`](server.js) (in a development environment).
+7.  **Data Processing**: After successfully receiving the instrument data from the API, the `InstrumentsStateManager` processes this data and updates its internal state.
+8.  **Instrument Data Ready Event**: Once the instrument data is prepared and available, the `InstrumentsStateManager` dispatches its *own* custom `stateChanged` event, specifically signaling that instrument data has been updated.
+9.  **UI Re-rendering**: Finally, the [`src/scripts/instruments/InstrumentList.js`](src/scripts/instruments/InstrumentList.js) component (or other relevant UI components displaying instrument information) listens for the `InstrumentsStateManager`'s `stateChanged` event. Upon receiving this event, it retrieves the newly fetched instrument data from the `InstrumentsStateManager` and dynamically re-renders itself to display the updated list of instruments on the user interface.
+
+This flow exemplifies the application's commitment to clear separation of concerns, where user interactions drive state changes, state managers handle data and logic, and UI components reactively update to reflect the current application state.
