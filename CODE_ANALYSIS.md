@@ -205,3 +205,20 @@ Key aspects of business logic distribution:
     *   The application's behavior is predictable, as data transformations and rule enforcements occur in well-defined, testable units.
 
 By adhering to this pattern, the application achieves a modular design where changes to business rules can often be isolated to the relevant `*StateManager`, minimizing ripple effects across the codebase.
+
+
+## 12. Coding Conventions Discovery
+
+The "Duke & Chord Music" application exhibits several observable coding conventions and architectural standards that contribute to its modularity and maintainability:
+
+*   **Modular File Structure**: The project enforces a clear and organized file structure, particularly within the [`src/scripts/`](src/scripts/) directory. Code is logically partitioned into feature-specific subdirectories (e.g., [`src/scripts/auth/`](src/scripts/auth/), [`src/scripts/classes/`](src/scripts/classes/), [`src/scripts/data/`](src/scripts/data/), [`src/scripts/instruments/`](src/scripts/instruments/), [`src/scripts/nav/`](src/scripts/nav/)). This convention ensures that related functionalities are grouped together, improving code discoverability and simplifying development.
+*   **Consistent Naming Conventions**:
+    *   **State Managers**: A strict naming pattern is observed for files responsible for managing application state, consistently ending with `*StateManager.js` (e.g., [`src/scripts/data/UserStateManager.js`](src/scripts/data/UserStateManager.js), [`src/scripts/data/InstrumentsStateManager.js`](src/scripts/data/InstrumentsStateManager.js), [`src/scripts/data/ViewStateManager.js`](src/scripts/data/ViewStateManager.js)). This convention immediately indicates the file's role in the application's data layer.
+    *   **UI Components**: User Interface components typically follow descriptive PascalCase naming (e.g., [`src/scripts/instruments/InstrumentList.js`](src/scripts/instruments/InstrumentList.js), [`src/scripts/classes/ClassDetails.js`](src/scripts/classes/ClassDetails.js), [`src/scripts/nav/NavBar.js`](src/scripts/nav/NavBar.js)).
+    *   **General JavaScript**: While a deep dive into individual code files is pending, it's generally expected that JavaScript functions and variables adhere to `camelCase`.
+*   **Architectural Adherence**: The application firmly adheres to a **Single Page Application (SPA)** architecture, leveraging client-side routing and custom event-driven state management. This commitment to a defined architectural style ensures consistency in how features are built and integrated.
+*   **Centralized Data Handling**: A significant convention is the centralization of API interaction and core business logic within the `*StateManager.js` modules. This pattern ensures a consistent and predictable approach to data flow throughout the application, enhancing maintainability and reducing the likelihood of data-related bugs.
+*   **Event-Driven Communication**: The extensive use of custom `stateChanged` events for communication between state managers and UI components is a fundamental convention. This promotes a loosely coupled system where components react to state changes without direct, tight dependencies on other modules.
+*   **Error Handling (Inferred)**: Although specific error handling implementations require further investigation, the event-driven nature of the application suggests that state managers would likely encapsulate API error handling and then dispatch specific events for UI components to display appropriate error messages, rather than propagating errors directly through nested function calls.
+
+These conventions collectively contribute to a structured, understandable, and scalable codebase, making it easier for new developers to onboard and for the team to maintain and extend the application.
