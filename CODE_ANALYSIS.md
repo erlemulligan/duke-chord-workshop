@@ -110,3 +110,10 @@ The application is a web platform with the following core features:
 *   **Instrument/Class Details**: Provides detailed views for individual instruments and classes.
 *   **About Us Section**: Likely includes information about employees or musicians associated with the platform.
 
+## 6. Entry Point & Main Flow Tracing
+
+The application's journey begins with [`server.js`](server.js), a custom Node.js server that acts as the primary server-side entry point. It's responsible for:
+*   Serving all static front-end files, with [`src/index.html`](src/index.html) as the initial page loaded by the browser.
+*   Proxying API requests to a `json-server` instance, which simulates the backend data store.
+
+Once [`src/index.html`](src/index.html) is loaded, it pulls in the client-side application logic, primarily through [`src/scripts/main.js`](src/scripts/main.js). This JavaScript file then orchestrates the initial rendering of components, often leveraging [`src/scripts/DukeChord.js`](src/scripts/DukeChord.js) and the [`src/scripts/data/ViewStateManager.js`](src/scripts/data/ViewStateManager.js) to manage client-side routing and display the correct views based on URL parameters. This sequence establishes the foundational flow from server initiation to client-side application rendering.
