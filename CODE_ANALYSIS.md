@@ -163,3 +163,22 @@ Key aspects of this state management approach include:
 *   **Decoupling and Centralization**: This pattern effectively decouples UI components from the underlying data logic, making components simpler and more focused on presentation. It also centralizes all data-fetching and business logic within the state managers, leading to a more organized and maintainable codebase.
 
 The rationale for this custom state management system is to provide a clear separation of concerns, enable reactive UI updates without complex data prop drilling, and ensure a single source of truth for each domain of application data.
+
+
+## 10. API Integration Patterns
+
+The "Duke & Chord Music" application integrates with a RESTful API to manage its data, following a well-defined pattern that centralizes API interactions and promotes modularity:
+
+*   **Mock REST API**: For development and demonstration purposes, the application utilizes a mock REST API powered by `json-server`. This setup allows the front-end to simulate full CRUD (Create, Read, Update, Delete) operations without requiring a complex backend implementation during development. The primary data source for this mock API is the [`api/database.json`](api/database.json) file.
+*   **Server-Side Proxy**: In a development environment, the application's custom Node.js server, [`server.js`](server.js), plays a crucial role by acting as a proxy. It serves the static front-end files and intercepts API requests, forwarding them to the `json-server` instance. This simplifies the client-side configuration and provides a unified access point for API communication.
+*   **Encapsulation in State Managers**: All client-side API calls are primarily initiated and handled within the dedicated `*StateManager.js` modules (e.g., [`src/scripts/data/UserStateManager.js`](src/scripts/data/UserStateManager.js), [`src/scripts/data/InstrumentsStateManager.js`](src/scripts/data/InstrumentsStateManager.js), [`src/scripts/data/ClassStateManager.js`](src/scripts/data/ClassStateManager.js)). This design choice ensures:
+    *   **Separation of Concerns**: UI components remain focused on presentation, delegating data fetching and manipulation responsibilities to the state managers.
+    *   **Centralized Logic**: All API interaction logic, including `fetch` requests, error handling, and response processing, resides in one place for each data domain.
+    *   **Consistency**: A consistent pattern for making API requests and processing their responses is enforced across the application.
+*   **Likely Endpoints**: Based on the structure of [`api/database.json`](api/database.json) (containing `users`, `instruments`, and `classes`), the application likely interacts with the following REST endpoints:
+    *   `/users`: For operations related to user authentication and profiles.
+    *   `/instruments`: For managing musical instrument data (e.g., listing, adding, updating instruments).
+    *   `/classes`: For handling music class information.
+*   **Response Processing**: After an API call, the respective `*StateManager` processes the JSON response, updates its internal state, and then dispatches a custom `stateChanged` event. This event-driven mechanism allows listening UI components to react and re-render with the newly updated data, ensuring the user interface remains synchronized with the backend.
+
+This structured approach to API integration makes the application's data flow predictable, maintainable, and scalable, even with the use of a mock backend.
