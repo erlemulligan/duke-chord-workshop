@@ -117,3 +117,15 @@ The application's journey begins with [`server.js`](server.js), a custom Node.js
 *   Proxying API requests to a `json-server` instance, which simulates the backend data store.
 
 Once [`src/index.html`](src/index.html) is loaded, it pulls in the client-side application logic, primarily through [`src/scripts/main.js`](src/scripts/main.js). This JavaScript file then orchestrates the initial rendering of components, often leveraging [`src/scripts/DukeChord.js`](src/scripts/DukeChord.js) and the [`src/scripts/data/ViewStateManager.js`](src/scripts/data/ViewStateManager.js) to manage client-side routing and display the correct views based on URL parameters. This sequence establishes the foundational flow from server initiation to client-side application rendering.
+
+
+## 7. Component / Module Relationship Mapping
+
+The "Duke & Chord Music" application utilizes a component-based and event-driven architecture to manage interactions and shared state efficiently:
+
+*   **Central Orchestration**: The main application component (e.g., [`src/scripts/DukeChord.js`](src/scripts/DukeChord.js), initialized by [`src/scripts/main.js`](src/scripts/main.js)) acts as a central orchestrator. It dynamically renders various UI components (e.g., [`src/scripts/Home.js`](src/scripts/Home.js), [`src/scripts/instruments/InstrumentList.js`](src/scripts/instruments/InstrumentList.js), [`src/scripts/auth/Login.js`](src/scripts/auth/Login.js), [`src/scripts/classes/ClassList.js`](src/scripts/classes/ClassList.js)) based on the current view, which is determined and managed by the [`src/scripts/data/ViewStateManager.js`](src/scripts/data/ViewStateManager.js).
+*   **Event-Driven State Management**: State is primarily managed by dedicated `*StateManager.js` modules (e.g., [`src/scripts/data/UserStateManager.js`](src/scripts/data/UserStateManager.js), [`src/scripts/data/InstrumentsStateManager.js`](src/scripts/data/InstrumentsStateManager.js), [`src/scripts/data/ClassStateManager.js`](src/scripts/data/ClassStateManager.js)). These managers encapsulate specific domains of application data. When their internal state changes (e.g., after fetching data from the API), they dispatch custom `stateChanged` events.
+*   **Loose Coupling via Events**: UI components "subscribe" to these `stateChanged` events. This means they listen for relevant state changes and re-render themselves accordingly when an event is dispatched by a state manager. This mechanism promotes loose coupling, allowing components to react to global state updates without having direct, tight dependencies on each other.
+*   **API Interaction**: The `*StateManager.js` modules are also responsible for all interactions with the mock REST API (powered by `json-server`). They handle fetching data, as well as creating, updating, and deleting records, ensuring that the application's data is consistent and up-to-date.
+
+In summary, components interact with state managers to initiate actions or retrieve data, and state managers, in turn, notify components of updates through a custom event system, which drives the dynamic rendering of the UI.
