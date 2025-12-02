@@ -182,3 +182,26 @@ The "Duke & Chord Music" application integrates with a RESTful API to manage its
 *   **Response Processing**: After an API call, the respective `*StateManager` processes the JSON response, updates its internal state, and then dispatches a custom `stateChanged` event. This event-driven mechanism allows listening UI components to react and re-render with the newly updated data, ensuring the user interface remains synchronized with the backend.
 
 This structured approach to API integration makes the application's data flow predictable, maintainable, and scalable, even with the use of a mock backend.
+
+
+## 11. Business Logic Location Finder
+
+In the "Duke & Chord Music" application, the business logic is systematically segregated from the presentation layer to promote maintainability, reusability, and a clear separation of concerns. The primary location for core business rules and operations is within the dedicated `*StateManager.js` modules, which reside in the [`src/scripts/data/`](src/scripts/data/) directory.
+
+Key aspects of business logic distribution:
+
+*   **Centralized in State Managers**: Each `*StateManager.js` module encapsulates the specific business logic relevant to its data domain. For instance:
+    *   [`src/scripts/data/UserStateManager.js`](src/scripts/data/UserStateManager.js): Contains logic for user authentication (e.g., verifying credentials, managing user sessions via `localStorage`), user registration, and potentially user profile updates.
+    *   [`src/scripts/data/InstrumentsStateManager.js`](src/scripts/data/InstrumentsStateManager.js): Houses logic for operations related to musical instruments, such as filtering instruments based on criteria, sorting, managing inventory, and any price calculation rules.
+    *   [`src/scripts/data/ClassStateManager.js`](src/scripts/data/ClassStateManager.js): Manages business rules for music classes, which might include enrollment processes, scheduling conflicts, or prerequisite checks.
+*   **Lean UI Components**: User Interface (UI) components (found in directories like [`src/scripts/instruments/`](src/scripts/instruments/), [`src/scripts/classes/`](src/scripts/classes/), etc.) are kept lean. They are primarily responsible for:
+    *   **Presentation Logic**: How to render data on the screen.
+    *   **Event Handling**: Capturing user interactions (clicks, form submissions).
+    *   **Simple Input Validation**: Basic validation for form fields, but complex business rule validation is deferred to state managers or backend.
+    They delegate complex business rules and data manipulation tasks to the respective `*StateManager` modules.
+*   **Design Rationale**: This architectural decision ensures that:
+    *   UI components remain focused on their rendering responsibilities, making them easier to understand, test, and reuse.
+    *   Business logic is centralized and consistent, preventing duplication and simplifying updates to core application rules.
+    *   The application's behavior is predictable, as data transformations and rule enforcements occur in well-defined, testable units.
+
+By adhering to this pattern, the application achieves a modular design where changes to business rules can often be isolated to the relevant `*StateManager`, minimizing ripple effects across the codebase.
