@@ -19,7 +19,18 @@
 ## Key Questions to Answer:
 
     - How did using an agentic AI tool compare to working alone?
+
+    Using an agentic AI tool, helped me speed up development, learning and understanding.
+
     - What was surprising about how the AI understood the code?
+
+    It was surpising how well AI could document the code analysis and explain it in an easy meaningful way.
+
     - Where did you need to correct or refine AI suggestions?
+
+    Sometimes I would need to specify the more recent supported versions of certain frameworks, libraries, etc.
+
     - How did you verify AI-generated code was correct?
+
+    The best way was to only generate code one small step at a time to verify the code and confirm that I understood each step. It was also helpful to have AI help generate unit tests to run after each step.
 
