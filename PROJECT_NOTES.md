@@ -20,11 +20,11 @@
 
     - How did using an agentic AI tool compare to working alone?
 
-    Using an agentic AI tool, helped me speed up development, learning and understanding.
+    Using an agentic AI tool helped me speed up development, learning and understanding of the codebase.
 
     - What was surprising about how the AI understood the code?
 
-    It was surpising how well AI could document the code analysis and explain it in an easy meaningful way.
+    It was surprising how well AI could document the code analysis and explain it in an easy and meaningful way.
 
     - Where did you need to correct or refine AI suggestions?
 
